@@ -64,10 +64,10 @@ def main():
         if message == "exit":
             break
         if message == "gait":
-            message = "0_1"
             for client in clients:
                 client.modify_message(message)
-                time.sleep(2)# change for response
+                request = client.client_socket.recv(1024)
+                print(f"Received from client {client.id}: {request.decode()}")
         else:        
             for client in clients:
                 client.modify_message(message)
