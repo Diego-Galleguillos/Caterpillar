@@ -56,12 +56,16 @@ class Pi_manager:
             if "exit" in self.message:
                 self.stop()
                 break
-            try:
-                if int(self.message[0]) == self.id or int(self.message[0]) == 0:
-                    print("taking step")
-                    self.take_steps(self.steps_per_turn, int(self.message[2]), 1)
-            except:
-                print("message too short")
+            if "gait" in self.message:
+                self.take_steps(self.steps_per_turn, 1, 1)
+                self.client_socket.send(f"{self.id} - step finished".encode())
+            else:
+                try:
+                    if int(self.message[0]) == self.id or int(self.message[0]) == 0:
+                        print("taking step")
+                        self.take_steps(self.steps_per_turn, int(self.message[2]), 1)
+                except:
+                    print("message too short")
 
 
     def take_steps(self, steps_per_turn, number_of_steps, motor_number):
