@@ -15,6 +15,8 @@ class client_manager:
         self.new = True
     
     def handle_client(self, client_socket):
+        self.response = ""
+        self.client_socket = client_socket
         client_socket.settimeout(1.0)  # Set a timeout for the recv method
         try:
             while True:
@@ -22,7 +24,7 @@ class client_manager:
                     request = client_socket.recv(1024)
                     if request:
                         print(f"Received from client {self.id}: {request.decode()}")
-                        response = f"{self.message} - {request.decode()}"
+                        self.response = f"{self.message} - {request.decode()}"
                         if self.new:
                             client_socket.send(self.message.encode())
                 except socket.timeout:
@@ -65,9 +67,12 @@ def main():
             break
         if message == "gait":
             for client in clients:
+                #message = "0_1"
                 client.modify_message(message)
-                request = client.client_socket.recv(1024)
-                print(f"Received from client {client.id}: {request.decode()}")
+                while client.response == "":
+                    time.sleep(0.001)
+                client.response = ""
+                
         else:        
             for client in clients:
                 client.modify_message(message)
