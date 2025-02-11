@@ -14,31 +14,49 @@ In this repository you will find the setup steps and basic code to use the Rasbe
 
 
 ## Installation
-To get started with **Project Title**, follow these steps:
+To get started with the Pi's and the bonnets, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/project-title.git
+    git clone https://github.com/Diego-Galleguillos/Caterpillar.git
     ```
 
 2. Navigate to the project directory:
     ```bash
-    cd project-title
+    cd Caterpillar
     ```
 
 3. Install dependencies:
     ```bash
-    npm install
+    sudo apt-get update
+
+    sudo apt-get install -y python3-pip
+
+    sudo apt-get install python3-rpi.gpio
+
+    sudo apt-get install python3-gpiozero
+
+    pip3 install adafruit-circuitpython-motorkit
     ```
 
-4. Start the application:
+When installing the adafruit-circuitpython-motorkit package an error might pop up, to solve this you can either create an enviroment and install it on said enviroment, or break system packages which will force the download:
+
     ```bash
-    npm start
+    pip3 install adafruit-circuitpython-motorkit --break-system-packages
     ```
 
 ## Usage
-Describe how to use your project. Include code examples and screenshots if necessary.
+In the example code, the publisher.py file will act as a server either on a PC or a Pi, and the pi.py file will run on the Pi's recieving commands and moving the motors on the robot.
+
+To get everything going you must first get the publisher up
+```bash
+# Example command
+python .\publisher.py
+```
+Then after selecting the amount of clients that will connect to the publisher, you can begin runing the code on the Pi's
+
 
 ```bash
 # Example command
-example_command --option
+python .\pi.py
+```
