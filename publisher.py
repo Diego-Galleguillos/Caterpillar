@@ -17,7 +17,7 @@ class client_manager:
     def handle_client(self, client_socket):
         self.response = ""
         self.client_socket = client_socket
-        client_socket.settimeout(1.0)  # Set a timeout for the recv method
+        client_socket.settimeout(0.2)  # Set a timeout for the recv method
         try:
             while True:
                 try:
