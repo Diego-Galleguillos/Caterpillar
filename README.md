@@ -64,3 +64,37 @@ python .\pi.py
 ```
 
 ## Wifi-Access-point
+
+There is a detailed tutorial on https://raspberrytips.com/access-point-setup-raspberry-pi/
+
+In case you just want the commands:
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+
+sudo raspi-config
+```
+Go to “Localisation Options” > “WLAN country”: 
+Select US
+
+sudo nmcli con add con-name hotspot ifname wlan0 type wifi ssid "Pi-Wifi"
+
+```bash
+sudo nmcli con add con-name hotspot ifname wlan0 type wifi ssid "Pi-Wifi"
+```
+
+```bash
+sudo nmcli con modify hotspot wifi-sec.key-mgmt wpa-psk
+sudo nmcli con modify hotspot wifi-sec.psk "raspberry"
+```
+
+```bash
+sudo nmcli con modify hotspot 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared
+```
+
+Everything should be ready, in case you want to edit you can use:
+
+```bash
+sudo nmtui
+```
