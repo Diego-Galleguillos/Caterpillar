@@ -5,7 +5,7 @@
 - [Introduction](#introduction)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Wifi Access point](#Wifi_Access_point)
+- [Wifi-Access-point](#Wifi-Access-point)
 - [Contact](#contact)
 
 ## Introduction
@@ -14,6 +14,8 @@ In this repository you will find the setup steps and basic code to use the Rasbe
 
 
 ## Installation
+First get the Pi's sd cards flashed with raspian OS, and using the config menu activate IIC in the interface options, after that set the mode from desktop to Terminal Mode for the default boot, that way it uses less resources.
+
 To get started with the Pi's and the bonnets, follow these steps:
 
 1. Clone the repository:
@@ -60,3 +62,5 @@ Then after selecting the amount of clients that will connect to the publisher, y
 # Example command
 python .\pi.py
 ```
+
+## Wifi-Access-point
