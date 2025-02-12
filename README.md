@@ -41,9 +41,9 @@ To get started with the Pi's and the bonnets, follow these steps:
 
 When installing the adafruit-circuitpython-motorkit package an error might pop up, to solve this you can either create an enviroment and install it on said enviroment, or break system packages which will force the download:
 
-    ```bash
-    pip3 install adafruit-circuitpython-motorkit --break-system-packages
-    ```
+```bash
+pip3 install adafruit-circuitpython-motorkit --break-system-packages
+```
 
 ## Usage
 In the example code, the publisher.py file will act as a server either on a PC or a Pi, and the pi.py file will run on the Pi's recieving commands and moving the motors on the robot.
