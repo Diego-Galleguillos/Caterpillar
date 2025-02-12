@@ -63,6 +63,8 @@ Then after selecting the amount of clients that will connect to the publisher, y
 python .\pi.py
 ```
 
+#Will be completed when final code is ready
+
 ## Wifi-Access-point
 
 There is a detailed tutorial on https://raspberrytips.com/access-point-setup-raspberry-pi/
@@ -98,3 +100,7 @@ Everything should be ready, in case you want to edit you can use:
 ```bash
 sudo nmtui
 ```
+
+## Contact
+
+For any questions email me : dpgalleguillos@uc.cl
