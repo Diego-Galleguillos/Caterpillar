@@ -3,7 +3,7 @@ from gpiozero import Button, RotaryEncoder
 import time
 from adafruit_motorkit import MotorKit
 import socket
-
+from pid import *
 
 
 def steps_for_angle(steps_per_turn, angle):
@@ -25,20 +25,23 @@ class Pi_manager:
         self.client_socket.connect(('192.168.0.101', 9999))
         self.message = "Initial message from server."
         self.steps_per_turn = 1140
-
+        self.overshoot = 0
+        self.controller = PIDController(kp=0.00048, ki=0.0000045, kd=0.0000000001, setpoint=1140)
     def move_angle(self, steps_per_turn, angle, motor_number, direction = -1):
         steps = steps_for_angle(steps_per_turn, angle)
+        steps = steps - self.overshoot
         self.count = 0
         self.count2 = 0
         self.enc1.steps = 0
+        self.controller.set_setpoint(steps)
         if motor_number == 1:
-            while abs(self.count) < steps:
-                print(self.count, self.count2, "in loop")
-                self.kit.motor1.throttle = direction*0.475
-                if   (steps_per_turn - self.count)/(steps_per_turn*2) < 0.15:
-                    #self.kit.motor1.throttle = 0.15 * direction
-                    pass
-                time.sleep(0.001)
+            while True:
+                print(self.count, self.count2, "in loop", self.controller.compute(self.count))
+                self.kit.motor1.throttle = direction*self.controller.compute(self.count)
+                if   abs(steps - self.count) < 10:
+                    self.kit.motor1.throttle = 0
+                    self.overshoot = self.count - steps
+                    break
             self.kit.motor1.throttle = 0
         else:
             while self.count2 < steps:
@@ -46,7 +49,6 @@ class Pi_manager:
                 self.kit.motor2.throttle = (steps_per_turn - self.count2)/(steps_per_turn*2) * direction
                 time.sleep(0.001)
             self.kit.motor2.throttle = 0
-
     def receive_message(self):
         while "exit" not in self.message:
             data = self.client_socket.recv(1024).decode()
@@ -58,6 +60,7 @@ class Pi_manager:
                 break
             if "gait" in self.message:
                 self.take_steps(self.steps_per_turn, 1, 1)
+                print(self.count)
                 self.client_socket.send(f"{self.id} - step finished".encode())
             else:
                 try:
@@ -73,7 +76,7 @@ class Pi_manager:
 
     def enc1_rotated(self):
         self.count = self.enc1.steps
-
+        
     def enc2_rotated(self):
         self.count2 = self.enc2.steps
 
@@ -101,3 +104,4 @@ if __name__ == "__main__":
         except KeyboardInterrupt:
             pi.stop()
             break
+

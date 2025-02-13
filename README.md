@@ -63,6 +63,12 @@ Then after selecting the amount of clients that will connect to the publisher, y
 python .\pi.py
 ```
 
+The publisher can use two type of commands
+
+The first is "gait" where all of the modules will advance 1 step taking turns, waiting for the previous (in front) to finish before begining their step
+
+The second command is 
+
 #Will be completed when final code is ready
 
 ## Wifi-Access-point
