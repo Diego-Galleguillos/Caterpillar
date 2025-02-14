@@ -17,7 +17,7 @@ class client_manager:
     def handle_client(self, client_socket):
         self.response = ""
         self.client_socket = client_socket
-        client_socket.settimeout(0.2)  # Set a timeout for the recv method
+        client_socket.settimeout(0.1)  # Set a timeout for the recv method
         try:
             while True:
                 try:
@@ -32,7 +32,6 @@ class client_manager:
                         if self.new:
                             client_socket.send(self.message.encode())
                 self.new = False
-                time.sleep(0.1)  # Add a small delay to avoid busy-waiting
         except Exception as e:
             print(f"An error occurred: {e}")
         finally:
@@ -72,10 +71,23 @@ def main():
                 while client.response == "":
                     time.sleep(0.001)
                 client.response = ""
-                
+        elif message == 'gait2':
+            for client in clients:
+                message = "gait"
+                client.modify_message(message)
+                if client.id == 2:
+                    while client.response == "":
+                        time.sleep(0.001)
+                    client.response = ""
+        elif message == 'gaitd':
+            message = "0_1"
+            for client in clients:
+                client.modify_message(message)
+                time.sleep(1)
         else:        
             for client in clients:
                 client.modify_message(message)
+
     
     sys.exit()
 
